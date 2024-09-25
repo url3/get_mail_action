@@ -41,7 +41,7 @@ jobs:
           git commit -m "Update index.html with new verification codes"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
 
       - name: Print extracted codes
         run: |
