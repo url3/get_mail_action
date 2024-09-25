@@ -1,7 +1,7 @@
 name: Check Email
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # 手动触发
   schedule:
     - cron: '0 * * * *'  # 每小时运行一次
 
@@ -32,3 +32,7 @@ jobs:
       - name: Update index.html with codes
         run: |
           python update_index.py
+
+      - name: Print extracted codes
+        run: |
+          cat codes.txt  # 打印验证码
