@@ -38,12 +38,17 @@ def extract_codes(emails):
                     codes.extend(re.findall(r'\b\d{4,6}\b', text))  # 4到6位验证码
     return codes
 
+# 省略前面的导入和配置代码
+
 def main():
     mail = connect_to_email()
     latest_emails = fetch_latest_emails(mail)
     codes = extract_codes(latest_emails)
     mail.logout()
-    
+
+    # 打印提取到的验证码
+    print('Extracted Codes:', codes)
+
     with open('codes.txt', 'w') as f:
         for code in codes:
             f.write(f"{code}\n")
