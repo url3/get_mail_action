@@ -1,4 +1,5 @@
 import os
+import re  # 添加这个导入
 
 def update_index():
     codes = []
