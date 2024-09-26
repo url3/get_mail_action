@@ -7,7 +7,7 @@ import os
 # 邮箱配置
 username = os.getenv('EMAIL_USERNAME')
 password = os.getenv('EMAIL_PASSWORD')
-imap_server = 'imap.gmail.com'
+imap_server = 'imap.qiye.aliyun.com'
 
 def connect_to_email():
     mail = imaplib.IMAP4_SSL(imap_server)
