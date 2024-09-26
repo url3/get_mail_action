@@ -26,7 +26,7 @@ def update_index():
 
     # 清除旧的验证码内容，保留其他内容
     new_content = re.sub(r'(<p>验证码:.*?</p>\n*)*', '', content)
-    new_content = re.sub(r'(<p>获取时间:.*?</p>\n*)*', '', content)
+    new_content = re.sub(r'(<p>获取时间:.*?</p>\n*)*', '', new_content)
 
     # 添加最新获取验证码时间
     new_content += f'<p>获取时间: {current_time}</p>\n'
