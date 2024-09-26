@@ -1,4 +1,4 @@
-name: Check Email
+name: 读取email验证码
 
 on:
   workflow_dispatch:  # 手动触发
@@ -26,6 +26,7 @@ jobs:
         env:
           EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_IMAP: ${{ secrets.EMAIL_IMAP }}
         run: |
           python extract_code.py
 
