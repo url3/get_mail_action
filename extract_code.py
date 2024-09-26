@@ -7,14 +7,14 @@ import os
 # 邮箱配置
 username = os.getenv('EMAIL_USERNAME')
 password = os.getenv('EMAIL_PASSWORD')
-imap_server = 'imap.qiye.aliyun.com'
+imap_server = os.getenv('EMAIL_IMAP')
 
 def connect_to_email():
     mail = imaplib.IMAP4_SSL(imap_server)
     mail.login(username, password)
     return mail
 
-def fetch_latest_emails(mail, num=5):
+def fetch_latest_emails(mail, num=8):
     mail.select('inbox')
     status, messages = mail.search(None, 'ALL')
     email_ids = messages[0].split()
@@ -24,7 +24,7 @@ def fetch_latest_emails(mail, num=5):
     for e_id in latest_ids:
         _, msg = mail.fetch(e_id, '(RFC822)')
         emails.append(msg[0][1])
-    
+
     return emails
 
 def extract_codes(emails):
