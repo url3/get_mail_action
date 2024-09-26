@@ -2,13 +2,13 @@ import os
 import re
 
 def update_index():
+    # 读取 codes.txt 中的验证码
     codes = []
     with open('codes.txt', 'r') as f:
         codes = f.readlines()
-    
-    # 倒序排列验证码
-    codes = [code.strip() for code in codes]  # 去除换行符
-    codes.sort(reverse=True)  # 倒序排列
+
+    # 去除每个验证码的换行符，并按照提取顺序反转
+    codes = [code.strip() for code in codes][::-1]  # 从后往前排列
 
     index_path = 'index.html'
     with open(index_path, 'r') as file:
@@ -17,10 +17,11 @@ def update_index():
     # 清除旧的验证码内容，保留其他内容
     new_content = re.sub(r'(<p>验证码:.*?</p>\n*)*', '', content)
 
-    # 将验证码添加到 index.html
+    # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
-        new_content += f'<p>验证码: {code}</p>\n'  # 添加验证码
+        new_content += f'<p>验证码: {code}</p>\n'
 
+    # 写入更新后的内容
     with open(index_path, 'w') as file:
         file.write(new_content)
 
