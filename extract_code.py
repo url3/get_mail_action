@@ -27,6 +27,10 @@ def fetch_latest_emails(mail, num=8):
 
     return emails
 
+def contains_keywords(text):
+    keywords = ['找回', '重置', '密保', '二级']
+    return any(keyword in text for keyword in keywords)
+
 def extract_codes(emails):
     codes = []
     for msg in emails:
@@ -37,7 +41,11 @@ def extract_codes(emails):
                     text = part.get_payload(decode=True).decode()
                     match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
                     if match:
-                        codes.append(match.group())  # 只添加第一组验证码
+                        # 检查是否包含关键词
+                        if contains_keywords(text):
+                            codes.append('******')  # 替换为******
+                        else:
+                            codes.append(match.group())  # 添加验证码
                         break  # 找到后跳出内层循环
     return codes
 
