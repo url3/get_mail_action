@@ -3,6 +3,7 @@ import email
 from email.header import decode_header
 import re
 import os
+from datetime import datetime, timedelta
 
 # 邮箱配置
 username = os.getenv('EMAIL_USERNAME')
@@ -31,6 +32,11 @@ def contains_keywords(text):
     keywords = ['找回', '重置', '密保', '二级']
     return any(keyword in text for keyword in keywords)
 
+def convert_to_beijing_time(timestamp):
+    # 将 UTC 时间转换为北京时间
+    beijing_time = timestamp + timedelta(hours=8)
+    return beijing_time.strftime('%Y-%m-%d %H:%M:%S')
+
 def extract_codes(emails):
     codes = []
     for msg in emails:
@@ -41,11 +47,19 @@ def extract_codes(emails):
                     text = part.get_payload(decode=True).decode()
                     match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
                     if match:
-                        # 检查是否包含关键词
-                        if contains_keywords(text):
-                            codes.append('******')  # 替换为******
+                        # 获取发信时间
+                        date_tuple = email.utils.parsedate_tz(email_msg['Date'])
+                        if date_tuple:
+                            timestamp = email.utils.mktime_tz(date_tuple)
+                            beijing_time = convert_to_beijing_time(datetime.fromtimestamp(timestamp))
                         else:
-                            codes.append(match.group())  # 添加验证码
+                            beijing_time = "未知时间"
+
+                        # 检查是否包含关键词
+                        code = match.group()
+                        if contains_keywords(text):
+                            code = '******'  # 替换为******
+                        codes.append(f"验证码: {code} 接码时间: {beijing_time}")  # 保存格式化字符串
                         break  # 找到后跳出内层循环
     return codes
 
