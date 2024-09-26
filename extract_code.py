@@ -35,10 +35,11 @@ def extract_codes(emails):
             for part in email_msg.walk():
                 if part.get_content_type() == 'text/plain':
                     text = part.get_payload(decode=True).decode()
-                    codes.extend(re.findall(r'\b\d{4,6}\b', text))  # 4到6位验证码
+                    match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
+                    if match:
+                        codes.append(match.group())  # 只添加第一组验证码
+                        break  # 找到后跳出内层循环
     return codes
-
-# 省略前面的导入和配置代码
 
 def main():
     mail = connect_to_email()
