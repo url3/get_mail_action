@@ -1,7 +1,20 @@
 name: 读取email验证码
 
 on:
-  workflow_dispatch:  # 手动触发
+  workflow_dispatch:
+    inputs:
+      telegram_token:
+        description: 'Telegram Bot Token'
+        required: true
+        type: string
+      chat_id:
+        description: 'Telegram Chat ID'
+        required: true
+        type: string
+      message:
+        description: 'Message to send'
+        required: true
+        type: string
   schedule:
     - cron: '*/8 * * * *'  # 每5分钟运行一次
 
