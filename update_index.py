@@ -38,7 +38,7 @@ def update_index():
         match_code = re.search(r'\b\d{4,6}\b', code)
         get_code = match_code.group()
         # 如果 get_code 在列表中，跳过；如果不在，追加
-        if int(get_code) in code_blackwords:
+        if get_code in code_blackwords:
             continue  # 忽略特定的 code
         else:
             new_content += f'<p>{code}</p>\n'  # 追加代码
