@@ -59,7 +59,7 @@ def extract_codes(emails):
                         code = match.group()
                         if contains_keywords(text):
                             code = '******'  # 替换为******
-                        codes.append(f"验证码: {code} 接码时间: {beijing_time}")  # 保存格式化字符串
+                        codes.append(f"验证码: {text} 接码时间: {beijing_time}")  # 保存格式化字符串
                         break  # 找到后跳出内层循环
     return codes
 
