@@ -2,6 +2,19 @@ name: 读取email验证码
 
 on:
   workflow_dispatch:
+    inputs:
+      emall_username:
+        description: 'EMAIL_USERNAME'
+        required: true
+        type: string
+      emall_password:
+        description: 'EMAIL_PASSWORD'
+        required: true
+        type: string
+      emall_imap:
+        description: 'EMAIL_IMAP'
+        required: true
+        type: string
 
 jobs:
   check_email:
@@ -22,9 +35,9 @@ jobs:
 
       - name: Check Email and Extract Code
         env:
-          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          EMAIL_IMAP: ${{ secrets.EMAIL_IMAP }}
+          EMAIL_USERNAME: ${{ github.event.inputs.emall_username }}
+          EMAIL_PASSWORD: ${{ github.event.inputs.emall_password }}
+          EMAIL_IMAP: ${{ github.event.inputs.emall_imap }}
         run: |
           python extract_code.py
 
