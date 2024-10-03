@@ -13,12 +13,15 @@ code_blockwords = os.getenv('CODE_BLOCKWORDS') or []  # ['找回', '重置', '�
 keywords = code_blockwords.split("|")
 print('Block关键词:', keywords)
 
-def remove_html_and_newlines(text):
+def remove_html_newlines_and_keyword(text):
     # 移除 HTML 标签
     clean = re.compile('<.*?>')
     clean_text = re.sub(clean, '', text)
     # 移除换行符
     clean_text = clean_text.replace('\n', '').replace('\r', '')
+    # 移除 "要回复此短信" 以及其后面的所有内容
+    clean_text = re.sub(r'要回复此短信，请回复此电子邮件.*', '', clean_text)
+    clean_text = re.sub(r'您的账号  帮助中心 帮助论坛.*', '', clean_text)
     return clean_text
 
 def connect_to_email():
@@ -55,7 +58,7 @@ def extract_codes(emails):
             for part in email_msg.walk():
                 if part.get_content_type() == 'text/plain':
                     text = part.get_payload(decode=True).decode()
-                    clean_text = remove_html_and_newlines(text)
+                    clean_text = remove_html_newlines_and_keyword(text)
                     print('sms短信全文:', clean_text)
 
                     match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
