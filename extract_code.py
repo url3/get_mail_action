@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 username = os.getenv('EMAIL_USERNAME')
 password = os.getenv('EMAIL_PASSWORD')
 imap_server = os.getenv('EMAIL_IMAP')
-code_blockwords = os.getenv('CODE_BLOCKWORDS')  # ['找回', '重置', '密保', '二级']
+code_blockwords = os.getenv('CODE_BLOCKWORDS') or []  # ['找回', '重置', '密保', '二级']
 print('code_blockwords:', code_blockwords)
 
 def connect_to_email():
@@ -31,7 +31,7 @@ def fetch_latest_emails(mail, num=8):
     return emails
 
 def contains_keywords(text):
-    keywords = code_blockwords
+    keywords = set(code_blockwords)
     return any(keyword in text for keyword in keywords)
 
 def convert_to_beijing_time(timestamp):
