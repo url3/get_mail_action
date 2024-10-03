@@ -4,7 +4,8 @@ from datetime import datetime, timedelta
 
 code_phonenumber = os.getenv('CODE_PHONENUMBER')
 code_blackwords = os.getenv('CODE_BLACKWORDS') or []  # [888777, 1600, 2024]
-print('code_blackwords:', code_blackwords)
+keywordx = code_blackwords.split("|")
+print('Black关键词:', keywordx)
 
 # 获取当前北京时间
 def get_beijing_time():
@@ -39,7 +40,7 @@ def update_index():
         match_code = re.search(r'\b\d{4,6}\b', code)
         get_code = match_code.group()
         # 如果 get_code 在列表中，跳过；如果不在，追加
-        if get_code is not None and get_code in code_blackwords.split(","):
+        if get_code is not None and get_code in keywordx:
             continue  # 忽略特定的 code
         else:
             new_content += f'<p>{code}</p>\n'  # 追加代码
