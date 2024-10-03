@@ -15,6 +15,18 @@ on:
         description: 'EMAIL_IMAP'
         required: true
         type: string
+      code_phonenumber:
+        description: 'CODE_PHONENUMBER'
+        required: true
+        type: string
+      code_blockwords:
+        description: 'CODE_BLOCKWORDS'
+        required: true
+        type: string
+      code_blackwords:
+        description: 'CODE_BLACKWORDS'
+        required: true
+        type: string
 
 jobs:
   check_email:
@@ -38,6 +50,9 @@ jobs:
           EMAIL_USERNAME: ${{ github.event.inputs.emall_username }}
           EMAIL_PASSWORD: ${{ github.event.inputs.emall_password }}
           EMAIL_IMAP: ${{ github.event.inputs.emall_imap }}
+          CODE_PHONENUMBER: ${{ github.event.inputs.code_phonenumber }}
+          CODE_BLOCKWORDS: ${{ github.event.inputs.code_blockwords }}
+          CODE_BLACKWORDS: ${{ github.event.inputs.code_blackwords }}
         run: |
           python extract_code.py
 
