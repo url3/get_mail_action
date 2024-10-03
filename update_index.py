@@ -30,12 +30,13 @@ def update_index():
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
-        match_code = re.search(r'\b\d{4,6}\b', code)  # 匹配4到6位数字
-        if match_code:
-            get_code = match_code.group()  # 提取匹配的code并转换为整数
-            if get_code in [888777, 1600, 2024]:  # 忽略特定的code
-                continue
-        new_content += f'<p>{code}</p>\n'
+        match_code = re.search(r'\b\d{4,6}\b', code)
+        get_code = match_code.group()
+        # 如果 get_code 在列表中，跳过；如果不在，追加
+        if get_code in [888777, 1600, 2024]:
+            continue  # 忽略特定的 code
+        else:
+            new_content += f'<p>{code}</p>\n'  # 追加代码
 
     # 添加最新获取验证码时间
     new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p>\n</div></body></html>\n'
