@@ -74,7 +74,7 @@ def extract_codes(emails):
                         # 检查是否包含关键词
                         if contains_keywords(clean_text):
                             clean_text = '******'  # 替换为******
-                        codes.append(f"短信: {clean_text} 时间: {beijing_time}")  # 保存格式化字符串
+                        codes.append(f"<b>短信</b>: {clean_text} <b>时间</b>: {beijing_time}")  # 保存格式化字符串
                         break  # 找到后跳出内层循环
     return codes
 
