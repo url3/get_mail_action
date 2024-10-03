@@ -2,6 +2,9 @@ import os
 import re
 from datetime import datetime, timedelta
 
+code_phonenumber = os.getenv('CODE_PHONENUMBER')
+code_blackwords = os.getenv('CODE_BLACKWORDS')  # [888777, 1600, 2024]
+
 # 获取当前北京时间
 def get_beijing_time():
     utc_time = datetime.utcnow()
@@ -25,21 +28,27 @@ def update_index():
         content = file.read()
 
     # 清除旧的验证码内容，保留其他内容
-    new_content = re.sub(r'(<p>验证码.*?</p>\n*)*', '', content)
-    new_content = re.sub(r'(<p><b>最后更新.*?</p>\n*)*', '', new_content)
+    new_content = re.sub(r'(<h1>+1.*?</h1>\n*)*', '', content)
+    new_content += f'<h1>{code_phonenumber}</h1>\n'
+
+    new_content = re.sub(r'(<p>验证码.*?</p>\n*)*', '', new_content)
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
         match_code = re.search(r'\b\d{4,6}\b', code)
         get_code = match_code.group()
         # 如果 get_code 在列表中，跳过；如果不在，追加
-        if int(get_code) in [888777, 1600, 2024]:
+        if int(get_code) in code_blackwords:
             continue  # 忽略特定的 code
         else:
             new_content += f'<p>{code}</p>\n'  # 追加代码
 
     # 添加最新获取验证码时间
-    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p></div></body></html>\n'
+    new_content = re.sub(r'(<p><b>最后更新.*?</p>\n*)*', '', new_content)
+    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p>\n'
+
+    new_content = re.sub(r'(</div></body></html>.*?\n*)*', '', new_content)
+    new_content += f'</div></body></html>\n'
 
     # 写入更新后的内容
     with open(index_path, 'w') as file:
