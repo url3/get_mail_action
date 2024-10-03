@@ -50,13 +50,14 @@ jobs:
           EMAIL_USERNAME: ${{ github.event.inputs.emall_username }}
           EMAIL_PASSWORD: ${{ github.event.inputs.emall_password }}
           EMAIL_IMAP: ${{ github.event.inputs.emall_imap }}
-          CODE_PHONENUMBER: ${{ github.event.inputs.code_phonenumber }}
           CODE_BLOCKWORDS: ${{ github.event.inputs.code_blockwords }}
-          CODE_BLACKWORDS: ${{ github.event.inputs.code_blackwords }}
         run: |
           python extract_code.py
 
       - name: Update index.html with codes
+        env:
+          CODE_PHONENUMBER: ${{ github.event.inputs.code_phonenumber }}
+          CODE_BLACKWORDS: ${{ github.event.inputs.code_blackwords }}
         run: |
           python update_index.py
 
