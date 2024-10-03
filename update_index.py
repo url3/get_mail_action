@@ -30,10 +30,9 @@ def update_index():
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
-    code_str = str(code)  # 确保code是字符串
-    match_code = re.search(r'\b\d{4,6}\b', code_str)  # 匹配4到6位数字
+    match_code = re.search(r'\b\d{4,6}\b', code)  # 匹配4到6位数字
     if match_code:
-        get_code = int(match_code.group())  # 提取匹配的code并转换为整数
+        get_code = match_code.group()  # 提取匹配的code并转换为整数
         if get_code in [888777, 1600, 2024]:  # 忽略特定的code
             continue
         new_content += f'<p>{code}</p>\n'
