@@ -55,7 +55,7 @@ def extract_codes(emails):
             for part in email_msg.walk():
                 if part.get_content_type() == 'text/plain':
                     text = part.get_payload(decode=True).decode()
-                    clean_text = remove_html_tags(text)
+                    clean_text = remove_html_and_newlines(text)
                     print('sms短信全文:', clean_text)
 
                     match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
