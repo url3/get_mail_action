@@ -25,19 +25,19 @@ def update_index():
         content = file.read()
 
     # 清除旧的验证码内容，保留其他内容
-    new_content = re.sub(r'(<p>验证码:.*?</p>\n*)*', '', content)
-    new_content = re.sub(r'(<p>刷新时间:.*?</p>\n*)*', '', new_content)
+    new_content = re.sub(r'(<p>验证码.*?</p>\n*)*', '', content)
+    new_content = re.sub(r'(<p><b>最后更新.*?</p>\n*)*', '', new_content)
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
-        get_code = re.search(r'\b\d{4,6}\b', code)  # 查找第一组验证码
+        match_code = re.search(r'\b\d{4,6}\b', code)
+        get_code = match_code.group()
         if get_code in [888777, 1600, 2024]:  # 忽略特定的code
             continue
         new_content += f'<p>{code}</p>\n'
 
     # 添加最新获取验证码时间
-    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p>\n'
-    new_content += f'</div></body></html>\n'
+    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p>\n</div></body></html>\n'
 
     # 写入更新后的内容
     with open(index_path, 'w') as file:
