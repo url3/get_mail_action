@@ -10,6 +10,7 @@ username = os.getenv('EMAIL_USERNAME')
 password = os.getenv('EMAIL_PASSWORD')
 imap_server = os.getenv('EMAIL_IMAP')
 code_blockwords = os.getenv('CODE_BLOCKWORDS')  # ['找回', '重置', '密保', '二级']
+print('code_blockwords:', code_blockwords)
 
 def connect_to_email():
     mail = imaplib.IMAP4_SSL(imap_server)
