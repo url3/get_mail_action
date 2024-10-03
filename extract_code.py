@@ -55,6 +55,10 @@ def extract_codes(emails):
     codes = []
     for msg in emails:
         email_msg = email.message_from_bytes(msg)
+
+        subject = email_msg['Subject']  # 获取邮件标题
+        from_num = ''.join(re.findall(r'\d+', subject)) if subject else '未知号码'  # 提取纯数字
+
         if email_msg.is_multipart():
             for part in email_msg.walk():
                 if part.get_content_type() == 'text/plain':
@@ -74,7 +78,7 @@ def extract_codes(emails):
                         # 检查是否包含关键词
                         if contains_keywords(clean_text):
                             clean_text = '******'  # 替换为******
-                        codes.append(f"<b>短信</b>: {clean_text} <b>时间</b>: {beijing_time}")  # 保存格式化字符串
+                        codes.append(f"<b>短信</b>: {clean_text} <b>时间</b>: {beijing_time} <b>来自</b>: {from_num}")  # 保存格式化字符串
                         break  # 找到后跳出内层循环
     return codes
 
