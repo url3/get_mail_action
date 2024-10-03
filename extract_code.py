@@ -13,9 +13,13 @@ code_blockwords = os.getenv('CODE_BLOCKWORDS') or []  # ['找回', '重置', '�
 keywords = code_blockwords.split("|")
 print('Block关键词:', keywords)
 
-def remove_html_tags(text):
+def remove_html_and_newlines(text):
+    # 移除 HTML 标签
     clean = re.compile('<.*?>')
-    return re.sub(clean, '', text)
+    clean_text = re.sub(clean, '', text)
+    # 移除换行符
+    clean_text = clean_text.replace('\n', '').replace('\r', '')
+    return clean_text
 
 def connect_to_email():
     mail = imaplib.IMAP4_SSL(imap_server)
