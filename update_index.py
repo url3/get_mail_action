@@ -30,10 +30,13 @@ def update_index():
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
+        if code in [888777, 1600, 2024]:  # 忽略特定的code
+            continue
         new_content += f'<p>{code}</p>\n'
 
     # 添加最新获取验证码时间
-    new_content += f'<p><b>最后刷新时间: {current_time}</b></p>\n</div></body></html>\n'
+    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p>\n'
+    new_content += f'</div></body></html>\n'
 
     # 写入更新后的内容
     with open(index_path, 'w') as file:
