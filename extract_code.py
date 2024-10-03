@@ -56,8 +56,14 @@ def extract_codes(emails):
     for msg in emails:
         email_msg = email.message_from_bytes(msg)
 
+        # 解码邮件标题
         subject = email_msg['Subject']  # 获取邮件标题
-        print('Email标题:', subject)
+        if subject:
+            decoded_subject = email.header.decode_header(subject)
+            subject = ''.join([str(part, encoding if encoding else 'utf-8') for part, encoding in decoded_subject])
+        print('解码后的Email标题:', subject)
+        
+        # 提取纯数字
         from_num = ''.join(re.findall(r'\d+', subject)) if subject else '未知号码'  # 提取纯数字
 
         if email_msg.is_multipart():
