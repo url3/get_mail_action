@@ -21,6 +21,7 @@ def remove_html_newlines_and_keyword(text):
     clean_text = clean_text.replace('\n', '').replace('\r', '')
     # 移除 "要回复此短信" 以及其后面的所有内容
     clean_text = re.sub(r'要回复此短信，请回复此电子邮件.*', '', clean_text)
+    clean_text = re.sub(r'如要回复此消息，请在移动设备.*', '', clean_text)
     clean_text = re.sub(r'您的账号  帮助中心 帮助论坛.*', '', clean_text)
     return clean_text
 
@@ -61,8 +62,7 @@ def extract_codes(emails):
                     clean_text = remove_html_newlines_and_keyword(text)
                     print('sms短信全文:', clean_text)
 
-                    match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
-                    if match:
+                    if clean_text:
                         # 获取发信时间
                         date_tuple = email.utils.parsedate_tz(email_msg['Date'])
                         if date_tuple:
@@ -72,10 +72,9 @@ def extract_codes(emails):
                             beijing_time = "未知时间"
 
                         # 检查是否包含关键词
-                        code = match.group()
-                        if contains_keywords(text):
-                            code = '******'  # 替换为******
-                        codes.append(f"验证码: {code} 接码时间: {beijing_time}")  # 保存格式化字符串
+                        if contains_keywords(clean_text):
+                            clean_text = '******'  # 替换为******
+                        codes.append(f"短信: {clean_text} 时间: {beijing_time}")  # 保存格式化字符串
                         break  # 找到后跳出内层循环
     return codes
 
