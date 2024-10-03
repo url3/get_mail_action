@@ -30,7 +30,8 @@ def update_index():
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
-        if code in [888777, 1600, 2024]:  # 忽略特定的code
+        get_code = re.search(r'\b\d{4,6}\b', code)  # 查找第一组验证码
+        if get_code in [888777, 1600, 2024]:  # 忽略特定的code
             continue
         new_content += f'<p>{code}</p>\n'
 
