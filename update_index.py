@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 
 code_phonenumber = os.getenv('CODE_PHONENUMBER')
-code_blackwords = os.getenv('CODE_BLACKWORDS')  # [888777, 1600, 2024]
+code_blackwords = os.getenv('CODE_BLACKWORDS') or []  # [888777, 1600, 2024]
 print('code_blackwords:', code_blackwords)
 
 # 获取当前北京时间
