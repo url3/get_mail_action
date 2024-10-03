@@ -13,6 +13,10 @@ code_blockwords = os.getenv('CODE_BLOCKWORDS') or []  # ['找回', '重置', '�
 keywords = code_blockwords.split("|")
 print('Block关键词:', keywords)
 
+def remove_html_tags(text):
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)
+
 def connect_to_email():
     mail = imaplib.IMAP4_SSL(imap_server)
     mail.login(username, password)
@@ -47,6 +51,9 @@ def extract_codes(emails):
             for part in email_msg.walk():
                 if part.get_content_type() == 'text/plain':
                     text = part.get_payload(decode=True).decode()
+                    clean_text = remove_html_tags(text)
+                    print('sms短信全文:', clean_text)
+
                     match = re.search(r'\b\d{4,6}\b', text)  # 查找第一组验证码
                     if match:
                         # 获取发信时间
