@@ -33,13 +33,13 @@ def update_index():
         match_code = re.search(r'\b\d{4,6}\b', code)
         get_code = match_code.group()
         # 如果 get_code 在列表中，跳过；如果不在，追加
-        if get_code in [888777, 1600, 2024]:
+        if int(get_code) in [888777, 1600, 2024]:
             continue  # 忽略特定的 code
         else:
-            new_content += f'<p>{get_code}</p>\n'  # 追加代码
+            new_content += f'<p>{code}</p>\n'  # 追加代码
 
     # 添加最新获取验证码时间
-    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p>\n</div></body></html>\n'
+    new_content += f'<p><b>最后更新时间: {current_time} (每2分钟自动刷新)</b></p></div></body></html>\n'
 
     # 写入更新后的内容
     with open(index_path, 'w') as file:
