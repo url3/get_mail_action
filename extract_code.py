@@ -31,7 +31,7 @@ def fetch_latest_emails(mail, num=8):
     return emails
 
 def contains_keywords(text):
-    keywords = set(code_blockwords)
+    keywords = code_blockwords.split(",")
     return any(keyword in text for keyword in keywords)
 
 def convert_to_beijing_time(timestamp):
