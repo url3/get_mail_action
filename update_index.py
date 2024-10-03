@@ -29,7 +29,7 @@ def update_index():
         content = file.read()
 
     # 清除旧的验证码内容，保留其他内容
-    new_content = re.sub(r'(<h1>+1.*?</h1>\n*)*', '', content)
+    new_content = re.sub(r'(<h1>.*?</h1>\n*)*', '', content)
     new_content += f'<h1>{code_phonenumber}</h1>\n'
 
     new_content = re.sub(r'(<p>验证码.*?</p>\n*)*', '', new_content)
@@ -39,7 +39,7 @@ def update_index():
         match_code = re.search(r'\b\d{4,6}\b', code)
         get_code = match_code.group()
         # 如果 get_code 在列表中，跳过；如果不在，追加
-        if get_code is not None and get_code in code_blackwords:
+        if get_code is not None and get_code in code_blackwords.split(","):
             continue  # 忽略特定的 code
         else:
             new_content += f'<p>{code}</p>\n'  # 追加代码
