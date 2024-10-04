@@ -38,7 +38,8 @@ def update_index():
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
         match_code = re.search(r'\b\d{4,6}\b', code)
-        get_code = match_code.group()
+        if match_code is not None:
+            get_code = match_code.group()
         # 如果 get_code 在列表中，跳过；如果不在，追加
         if get_code is not None and get_code in keywordx:
             continue  # 忽略特定的 code
