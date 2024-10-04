@@ -33,7 +33,7 @@ def update_index():
     new_content = re.sub(r'(<h1>.*?</h1>\n*)*', '', content)
     new_content += f'<h1>{code_phonenumber}</h1>\n'
 
-    new_content = re.sub(r'(<b>短信</b>:.*?</p>\n*)*', '', new_content)
+    new_content = re.sub(r'(<p><span>时间</span>:.*?</p>\n*)*', '', new_content)
 
     # 按从后往前的顺序将验证码添加到 index.html
     for code in codes:
