@@ -49,7 +49,7 @@ def contains_keywords(text):
 def convert_to_beijing_time(timestamp):
     # 将 UTC 时间转换为北京时间
     beijing_time = timestamp + timedelta(hours=8)
-    return beijing_time.strftime('%Y-%m-%d %H:%M:%S')
+    return beijing_time.strftime('%m-%d %H:%M')
 
 def extract_codes(emails):
     codes = []
@@ -62,7 +62,7 @@ def extract_codes(emails):
             decoded_subject = email.header.decode_header(subject)
             subject = ''.join([str(part, encoding if encoding else 'utf-8') for part, encoding in decoded_subject])
         print('解码后的Email标题:', subject)
-        
+
         # 提取纯数字
         from_num = ''.join(re.findall(r'\d+', subject)) if subject else '未知号码'  # 提取纯数字
 
@@ -85,7 +85,7 @@ def extract_codes(emails):
                         # 检查是否包含关键词
                         if contains_keywords(clean_text):
                             clean_text = '******'  # 替换为******
-                        codes.append(f"<b>短信</b>: {clean_text} <b>时间</b>: {beijing_time} <b>来自</b>: {from_num}")  # 保存格式化字符串
+                        codes.append(f"<span>时间</span>: {beijing_time} <span>短信</span>: {clean_text} <span>来自</span>: {from_num}")  # 保存格式化字符串
                         break  # 找到后跳出内层循环
     return codes
 
